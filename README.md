@@ -2,7 +2,7 @@
 # Nmap GUI Documentation
 
 <p align="center">
-  <img src="https://github.com/smtkanchana66/Nmap-GUI/blob/main/nmap.jpg" />
+  <img src="https://github.com/smtkanchana66/Nmap-GUI/blob/main/screen_shots/4.png" />
 </p>
 
 ### Overview
@@ -49,6 +49,21 @@ python GUI.py
 
 ### Contributing
 Contributions to this project are welcome! If you encounter any bugs, have suggestions for improvements, or want to add new features, please feel free to open an issue or submit a pull request on GitHub.
+
+### Screen shots while developing
+<table>
+  <tr>
+    <td align="center"><img src="https://github.com/smtkanchana66/Nmap-GUI/blob/main/screen_shots/1.png"         
+       alt="Screenshot 1" width="400"></td>
+    <td align="center"><img src="https://github.com/smtkanchana66/Nmap-GUI/blob/main/screen_shots/2.png" 
+       alt="Screenshot 2" width="400"></td>
+  </tr>
+      <td align="center"><img src="https://github.com/smtkanchana66/Nmap-GUI/blob/main/screen_shots/3.png"         
+       alt="Screenshot 3" width="400"></td>
+    <td align="center"><img src="https://github.com/smtkanchana66/Nmap-GUI/blob/main/screen_shots/4.png" 
+       alt="Screenshot 4" width="400"></td>
+  </tr>
+</table>
 
 ### License
 This project is licensed under the MIT License.
