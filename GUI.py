@@ -23,8 +23,17 @@ def run_nmap_scan():
     scan_thread = threading.Thread(target=start_scan, args=(nmap_args,))
     scan_thread.start()
 
+def stop_nmap_scan():
+    if scan_thread and scan_thread.is_alive():
+        scan_thread.join(timeout=1)
+        if scan_thread.is_alive():
+            scan_thread.kill()
+            messagebox.showinfo("Scan Stopped", "Scan stopped successfully.")
+
 def start_scan(nmap_args):
+    global scan_thread
     start_button.config(state=tk.DISABLED)
+    stop_button.config(state=tk.NORMAL)
     scan_progress.start(10)
     try:
         output = subprocess.run(nmap_args, capture_output=True, text=True, timeout=300)
@@ -35,40 +44,44 @@ def start_scan(nmap_args):
     finally:
         scan_progress.stop()
         start_button.config(state=tk.NORMAL)
+        stop_button.config(state=tk.DISABLED)
 
 # Create the main window
 root = tk.Tk()
 root.title("Nmap GUI")
-root.configure(bg="#f0f0f0")
+root.configure(bg="#0066CC")  # Blue background color
 
 # Create and pack GUI components with styling
-title_label = tk.Label(root, text="Nmap GUI", font=("Helvetica", 24), bg="#f0f0f0")
+title_label = tk.Label(root, text="Nmap GUI", font=("Helvetica", 24, "bold"), bg="#0066CC", fg="white")  # White text color
 title_label.grid(row=0, columnspan=2, padx=10, pady=10)
 
-target_label = tk.Label(root, text="Target:", font=("Helvetica", 12), bg="#f0f0f0")
+target_label = tk.Label(root, text="Target:", font=("Helvetica", 12), bg="#0066CC", fg="white")  # White text color
 target_label.grid(row=1, column=0, padx=5, pady=5, sticky="e")
 
 target_entry = tk.Entry(root, font=("Helvetica", 12))
 target_entry.grid(row=1, column=1, padx=5, pady=5, sticky="w")
 
 ping_var = tk.BooleanVar()
-ping_checkbutton = tk.Checkbutton(root, text="Ping Scan (-Pn)", variable=ping_var, font=("Helvetica", 12), bg="#f0f0f0", padx=10, pady=5)
-ping_checkbutton.grid(row=2, columnspan=2, sticky=tk.W)
+ping_checkbutton = tk.Checkbutton(root, text="Ping Scan (-Pn)", variable=ping_var, font=("Helvetica", 12), bg="#0066CC", fg="white")  # White text color
+ping_checkbutton.grid(row=2, columnspan=2, sticky=tk.W, padx=5, pady=5)
 
 os_detection_var = tk.BooleanVar()
-os_detection_checkbutton = tk.Checkbutton(root, text="OS Detection (-O)", variable=os_detection_var, font=("Helvetica", 12), bg="#f0f0f0", padx=10, pady=5)
-os_detection_checkbutton.grid(row=3, columnspan=2, sticky=tk.W)
+os_detection_checkbutton = tk.Checkbutton(root, text="OS Detection (-O)", variable=os_detection_var, font=("Helvetica", 12), bg="#0066CC", fg="white")  # White text color
+os_detection_checkbutton.grid(row=3, columnspan=2, sticky=tk.W, padx=5, pady=5)
 
 service_version_var = tk.BooleanVar()
-service_version_checkbutton = tk.Checkbutton(root, text="Service Version Detection (-sV)", variable=service_version_var, font=("Helvetica", 12), bg="#f0f0f0", padx=10, pady=5)
-service_version_checkbutton.grid(row=4, columnspan=2, sticky=tk.W)
+service_version_checkbutton = tk.Checkbutton(root, text="Service Version Detection (-sV)", variable=service_version_var, font=("Helvetica", 12), bg="#0066CC", fg="white")  # White text color
+service_version_checkbutton.grid(row=4, columnspan=2, sticky=tk.W, padx=5, pady=5)
 
 script_scan_var = tk.BooleanVar()
-script_scan_checkbutton = tk.Checkbutton(root, text="Script Scan (-sC)", variable=script_scan_var, font=("Helvetica", 12), bg="#f0f0f0", padx=10, pady=5)
-script_scan_checkbutton.grid(row=5, columnspan=2, sticky=tk.W)
+script_scan_checkbutton = tk.Checkbutton(root, text="Script Scan (-sC)", variable=script_scan_var, font=("Helvetica", 12), bg="#0066CC", fg="white")  # White text color
+script_scan_checkbutton.grid(row=5, columnspan=2, sticky=tk.W, padx=5, pady=5)
 
-start_button = tk.Button(root, text="Start Scan", command=run_nmap_scan, font=("Helvetica", 12), bg="#4CAF50", fg="white", padx=10, pady=5)
-start_button.grid(row=6, columnspan=2, padx=10, pady=10)
+start_button = tk.Button(root, text="Start Scan", command=run_nmap_scan, font=("Helvetica", 12), bg="#4CAF50", fg="white", padx=10, pady=5)  # Green button
+start_button.grid(row=6, column=0, padx=10, pady=10)
+
+stop_button = tk.Button(root, text="Stop Scan", command=stop_nmap_scan, font=("Helvetica", 12), bg="#FF5722", fg="white", padx=10, pady=5, state=tk.DISABLED)  # Red button
+stop_button.grid(row=6, column=1, padx=10, pady=10)
 
 scan_progress = ttk.Progressbar(root, mode="indeterminate", length=200)
 scan_progress.grid(row=7, columnspan=2, padx=10, pady=10)
